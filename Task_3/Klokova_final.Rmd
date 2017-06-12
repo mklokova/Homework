@@ -1,0 +1,28 @@
+
+Як середня затримка рейсів в аеропорті JFK залежить від усередненої відстані?
+
+```{r}
+require(dplyr)
+require(ggplot2)
+ flights %>%
+  filter(origin == "JFK") %>%
+  group_by(distance) %>%
+  summarise(mean_delay = mean(arr_delay, na.rm = TRUE),
+    mean_distance = mean(distance, na.rm = TRUE)) %>%
+  arrange(desc(mean_delay))
+
+
+```
+```{r}
+flights %>%
+  filter(origin == "JFK") %>%
+     group_by(distance) %>%
+  summarise(mean_delay = mean(arr_delay, na.rm = TRUE),
+    mean_distance = mean(distance, na.rm = TRUE)) %>%
+    ggplot(aes(x = mean_delay, y = mean_distance)) + geom_point(color = "blue", size = 3) + geom_smooth() 
+```
+
+
+
+  #PS: Насправді, я бралась за завдання "Чи справді перелетіти через Атлантику важче з США в Європу, ніж з Європи в США або вздовж американського континенту?" Я намагалаась витягнути дані про американські та неамериканські аеропорти з airports > lat-lon (координати), але спроби були невдалими.
+  
